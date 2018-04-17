@@ -5,6 +5,30 @@
 param(
   [string]$VM
 )
+
+#Save the current value in the $p variable.
+$p = [Environment]::GetEnvironmentVariable("PSModulePath")
+
+#Add the new path to the $p variable. Begin with a semi-colon separator.
+$p += ";C:\Program Files (x86)\VMware\Infrastructure\vSphere PowerCLI\Modules\"
+
+#Add the paths in $p to the PSModulePath value.
+[Environment]::SetEnvironmentVariable("PSModulePath",$p)
+
+#Save the current value in the $p variable.
+$p = [Environment]::GetEnvironmentVariable("PSModulePath")
+ 
+#Add the new path to the $p variable. Begin with a semi-colon separator.
+$p += ";C:\Program Files (x86)\VMware\Infrastructure\vSphere PowerCLI\Modules\"
+ 
+#Add the paths in $p to the PSModulePath value.
+[Environment]::SetEnvironmentVariable("PSModulePath",$p)
+
+Get-Module –ListAvailable VM* | Import-Module
+
+Connect-VIServer -Server nc-vca01.co.randolph.nc.us
+Connect-VIServer -Server sb-vca01.co.randolph.nc.us
+
 $VM = Get-VM $VM
 Get-VM $VM|Get-HardDisk|FT Parent, Name, CapacityGB -Autosize
 $HardDisk = Read-Host "Enter VMware Hard Disk (Ex. 1)"
